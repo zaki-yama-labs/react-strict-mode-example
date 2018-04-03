@@ -53,12 +53,36 @@ class NewRef extends Component {
   }
 }
 
+class SideEffect extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { count: 0 };
+    console.log('SideEffect constructor');
+  }
+
+  increment = () => {
+    this.setState((prevState, props) => {
+      console.log('SideEffect updater', prevState);
+      return {
+        count: prevState.count + 1,
+      };
+    });
+  };
+
+  render() {
+    console.log('SideEffect render');
+    return <div onClick={this.increment}>{this.state.count}</div>;
+  }
+}
+
 export default function App() {
   return (
     <StrictMode>
       <UnsafeComponent />
       <LegacyRef />
       <NewRef />
+      <SideEffect />
     </StrictMode>
   );
 }
